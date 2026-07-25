@@ -1,0 +1,43 @@
+# Archivos auxiliares de LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.nav
+*.snm
+*.vrb
+*.bcf
+*.run.xml
+*.xdv
+
+# Nota: los PDF dentro de plantilla/ y ejemplos/ SÍ se versionan a propósito
+# (son el PDF de referencia y el ejemplo compilado). No se ignoran aquí.
+
+# Archivos de prueba temporales
+test_*.tex
+test_*.pdf
+test_*.log
+test_*.aux
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude Code — archivos internos de desarrollo
+.claude/
+CLAUDE.md
+
+# Documentos personales de identidad (cédula, tarjeta militar, CVLAC completo,
+# certificados originales) usados como fuente para el ejemplo — NO se versionan.
+DOCS PERSONALES PARA PLANTILLA DE EJEMPLO/

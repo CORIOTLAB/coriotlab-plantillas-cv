@@ -1,0 +1,372 @@
+%% ╔══════════════════════════════════════════════════════════════════╗
+%% ║         CORIOTLAB — PLANTILLA HOJA DE VIDA (CV)                 ║
+%% ║         Investigadores, docentes, estudiantes de ingeniería     ║
+%% ╚══════════════════════════════════════════════════════════════════╝
+%%
+%% COMPILAR: xelatex -interaction=nonstopmode plantilla_hoja_de_vida.tex
+%%           (doble pasada obligatoria)
+%%
+%% Esta plantilla es autocontenida: no depende de rutas del repositorio
+%% "coriotlab-plantillas-informes". Usa los activos de marca ya
+%% incluidos en este mismo proyecto (carpetas "705_Kit de Marca
+%% Coriotlab" y "Membretes CoriotLab", un nivel arriba de este archivo).
+
+%% ═══════════════════════════════════════════════════════════════════
+%% ZONA DE CONFIGURACIÓN — únicos campos a editar
+%% ═══════════════════════════════════════════════════════════════════
+
+%% --- Identificación ---
+\newcommand{\CVNombre}{Nombre Apellido}
+\newcommand{\CVTitulo}{Ingeniero(a) Electrónico(a) / Investigador(a) en Robótica}
+\newcommand{\CVCorreo}{correo@ejemplo.com}
+\newcommand{\CVTelefono}{+57 300 000 0000}
+\newcommand{\CVCiudad}{Medellín, Colombia}
+\newcommand{\CVLinkedIn}{}       %% opcional — URL completa, ej. https://www.linkedin.com/in/usuario
+\newcommand{\CVORCID}{}         %% opcional — solo el identificador, ej. 0000-0000-0000-0000
+\newcommand{\CVGitHub}{}        %% opcional — URL completa, ej. https://github.com/usuario
+\newcommand{\CVGoogleScholar}{} %% opcional — URL completa del perfil de Google Scholar
+\newcommand{\CVResearchGate}{}  %% opcional — URL completa del perfil de ResearchGate
+%% Deje cualquiera de los anteriores vacío ({}) si no aplica — el CV los omite automáticamente.
+\newcommand{\CVFecha}{Julio de 2026}   %% fecha de última actualización del CV
+
+%% ═══════════════════════════════════════════════════════════════════
+
+\documentclass[10pt, letterpaper]{article}
+
+%% --- Idioma
+\usepackage[spanish, es-nodecimaldot, es-noshorthands]{babel}
+
+%% --- Fuentes (nombres de familia Windows — instalar con setup_coriotlab.ps1)
+\usepackage{fontspec}
+\setmainfont{Inter}
+\newfontfamily\FuenteTitulo{MuseoModerno}
+\newfontfamily\FuenteCodigo{Space Mono}
+
+%% --- Geometría — más compacta que los informes: el CV no usa membrete
+%%     de página completa, así que se aprovecha más ancho de contenido.
+\usepackage[
+  top=2.1cm, bottom=2.3cm,
+  left=2.2cm, right=2.2cm,
+  footskip=1.1cm
+]{geometry}
+
+%% --- Colores corporativos CORIOTLAB (idénticos al Libro de Marca)
+\usepackage[table]{xcolor}
+\definecolor{AzulITM}     {HTML}{102D69}
+\definecolor{Magenta}     {HTML}{C14894}
+\definecolor{AzulDigital} {HTML}{56ACDE}
+\definecolor{GrisPizarra} {HTML}{2F2F2F}
+\definecolor{GrisClaro}   {HTML}{F5F5F5}
+\definecolor{GrisMedio}   {HTML}{888888}
+\definecolor{GrisLinea}   {HTML}{DDDDDD}
+\definecolor{Blanco}      {HTML}{FFFFFF}
+\definecolor{VerdeTarea}  {HTML}{1A6B3C}
+
+%% --- Gráficos — grffile permite rutas con espacios y puntos múltiples,
+%%     necesario porque las carpetas del kit de marca usan ese formato
+%%     (ej. "2. Logos/2. Logo Full Color/2. Horizontal/...")
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{tikz}
+
+%% --- Tablas y alineación de entradas
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{booktabs}
+
+%% --- Listas
+\usepackage{enumitem}
+
+%% --- Campos opcionales condicionales (DOI, LinkedIn, ORCID, GitHub, etc.)
+\usepackage{etoolbox}
+
+%% --- Secciones y espaciado
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{urlcolor=AzulDigital}
+
+%% --- Pie de página discreto (fecha + numeración si el CV excede 1 página)
+\usepackage{fancyhdr}
+
+\usepackage{parskip}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.3}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PIE DE PÁGINA — regla delgada + fecha (izq) + página (der)
+%% Reemplaza el membrete de página completa que usan los informes:
+%% en una hoja de vida (densa en tablas/listas) un watermark central
+%% compite con el contenido y reduce el contraste en blanco y negro.
+%% ─────────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{{\color{GrisLinea}\hrule height\footrulewidth}}
+\fancyfoot[L]{{\FuenteCodigo\tiny\color{GrisMedio}\CVFecha}}
+\fancyfoot[R]{{\small\color{GrisMedio}\thepage}}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ESTILO DE SECCIÓN — cuadrado de acento (píxeles del logo) + título
+%% MuseoModerno en AzulITM + regla AzulDigital, sin numeración (no es
+%% un informe con TOC, es un documento de una sola lectura corrida).
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\SeccionCV}[1]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.0em}%
+  \noindent{\textcolor{AzulITM}{\rule{2.4mm}{2.4mm}}}\hspace{0.5em}%
+  {\FuenteTitulo\large\color{AzulITM}\bfseries #1}\\[0.2em]%
+  {\color{AzulDigital}\rule{\linewidth}{1.1pt}}%
+  \vspace{0.4em}%
+}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ENCABEZADO DE ENTRADA — fila título (izq) + fechas (der), usado
+%% en Formación, Experiencia, Certificaciones. Mantiene alineación
+%% consistente sin obligar a usar una tabla completa por sección.
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\ItemCV}[2]{%
+  \par\noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    {\FuenteTitulo\normalsize\color{GrisPizarra}\bfseries #1} &
+    {\FuenteCodigo\small\color{GrisMedio}#2}\\
+  \end{tabularx}\par\vspace{0.1em}%
+}
+
+%% Estilo común para listas con viñeta "<" del sistema de marca (3.4).
+%% align=left evita que enumitem intente encajar la etiqueta en un
+%% labelwidth insuficiente y la empuje fuera del margen izquierdo.
+\setlist[itemize]{label={\color{AzulITM}\textbf{>}},
+  leftmargin=1.6em, labelsep=0.5em, align=left, itemsep=2pt, topsep=3pt}
+
+%% ─────────────────────────────────────────────────────────────────
+%% SISTEMA DE ETIQUETAS — Nivel de formación académica (sección 4A)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\NivelFormacion}[1]{%
+  \colorbox{AzulITM!12}{\color{AzulITM}\small\bfseries\strut\ #1\ }}
+\newcommand{\FormacionEnCurso}{%
+  \colorbox{AzulDigital!15}{\color{AzulDigital!70!black}\small\bfseries\strut\ En curso\ }}
+\newcommand{\FormacionCulminada}{%
+  \colorbox{VerdeTarea!15}{\color{VerdeTarea}\small\bfseries\strut\ Culminado\ }}
+
+%% ─────────────────────────────────────────────────────────────────
+%% SISTEMA DE ETIQUETAS — Certificación (sección 4B)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Certificado}{%
+  \colorbox{VerdeTarea!15}{\color{VerdeTarea}\small\bfseries\strut\ Certificado\ }}
+\newcommand{\NoCertificado}{%
+  \colorbox{GrisMedio!15}{\color{GrisMedio!70!black}\small\bfseries\strut\ Sin certificar\ }}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PUBLICACIONES EN FORMATO APA 7 (Opción A — ver README, sección
+%% "Decisión técnica: publicaciones en APA"). Comando determinístico,
+%% sin biblatex/biber ni archivo .bib externo.
+%%
+%% Uso:
+%%   \Publicacion{Autores}{Año}{Título}{Fuente en cursiva}%
+%%               {Volumen(Número), páginas}{DOI o URL}
+%%
+%% Deje {} vacío en el 5.º o 6.º parámetro si no aplica (ej. libros
+%% sin volumen, o publicaciones sin DOI).
+%% El orden de aparición es manual: para reordenar (cronológico o
+%% alfabético) simplemente reordene las llamadas a \Publicacion en
+%% el documento.
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Publicacion}[6]{%
+  \par\noindent\hangindent=1.2em\hangafter=1
+  #1 (#2). #3. \textit{#4}%
+  \ifstrempty{#5}{}{, \textit{#5}}%
+  .%
+  \ifstrempty{#6}{}{\ {\FuenteCodigo\small #6}}%
+  \par\vspace{0.5em}%
+}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CONGRESOS Y PONENCIAS — formato de cita breve, visualmente
+%% alineado con \Publicacion pero sin exigir rigor APA estricto.
+%%
+%% Uso:
+%%   \Ponencia{Título de la ponencia}{Nombre del evento}%
+%%            {Tipo de participación}{Lugar}{Fecha}
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Ponencia}[5]{%
+  \par\noindent\hangindent=1.2em\hangafter=1
+  \textbf{#1}. \textit{#2}. #3, #4 (#5).
+  \par\vspace{0.5em}%
+}
+
+%% =================================================================
+%%  DOCUMENTO
+%% =================================================================
+\begin{document}
+\color{GrisPizarra}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ENCABEZADO — nombre (protagonista) + logo horizontal discreto
+%% El logo va en menor jerarquía visual que el nombre del titular,
+%% tal como exige el Libro de Marca (sección "Usos correctos").
+%% ─────────────────────────────────────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.72\linewidth}
+  {\FuenteTitulo\fontsize{24}{28}\selectfont\color{AzulITM}\bfseries \CVNombre}\\[0.15em]
+  {\large\color{GrisPizarra}\CVTitulo}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.26\linewidth}
+  \raggedleft
+  \includegraphics[width=0.85\linewidth]%
+    {../705_Kit de Marca Coriotlab/2. Logos/2. Logo Full Color/2. Horizontal/Coriotlab_Logo_Hor_FullColor.png}
+\end{minipage}
+
+\vspace{0.6em}
+
+%% --- Línea de contacto: correo, teléfono, ciudad ---
+\newcommand{\CVSep}{\ \ \textcolor{AzulITM}{\textbf{<}}\ \ }
+\noindent{\small\color{GrisMedio}
+  \CVCorreo
+  \ifdefempty{\CVTelefono}{}{\CVSep\CVTelefono}%
+  \CVSep\CVCiudad
+}
+
+%% --- Línea de redes/identificadores académicos (separada del contacto) ---
+%% Solo aparece si al menos uno de estos campos no está vacío.
+\newbool{CVMostrarRedes}
+\ifdefempty{\CVLinkedIn}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVORCID}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVGitHub}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVGoogleScholar}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVResearchGate}{}{\booltrue{CVMostrarRedes}}
+\ifbool{CVMostrarRedes}{%
+  \vspace{0.25em}
+
+  \noindent{\small\color{GrisMedio}\textit{Redes:}\ \,%
+    \def\CVPrimeraRed{1}%
+    \ifdefempty{\CVLinkedIn}{}{\href{\CVLinkedIn}{LinkedIn}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVORCID}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{https://orcid.org/\CVORCID}{{\FuenteCodigo ORCID: \CVORCID}}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVGoogleScholar}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVGoogleScholar}{Google Scholar}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVResearchGate}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVResearchGate}{ResearchGate}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVGitHub}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVGitHub}{GitHub}\def\CVPrimeraRed{0}}%
+  }%
+}{}
+
+\vspace{0.3em}
+{\color{GrisLinea}\rule{\linewidth}{0.6pt}}
+
+%% ── OPT-0: Perfil Profesional ─────────────────────────────────────
+%% Opcional (sección 2, ítem 3 del encargo). Descomente todo el bloque
+%% para activarlo.
+%\SeccionCV{Perfil Profesional}
+%[Párrafo breve de 3 a 5 líneas: área de especialización, enfoque de
+%investigación o línea de trabajo principal, y el tipo de proyectos o
+%resultados que busca destacar. Evite repetir aquí lo que ya se detalla
+%en Experiencia o Formación; use este espacio para dar contexto y
+%orientación al lector sobre su perfil general.]
+
+%% ─────────────────────────────────────────────────────────────────
+%% FORMACIÓN ACADÉMICA
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Formación Académica}
+
+\ItemCV{[Nombre del programa académico]}{[AAAA] -- en curso}
+[Institución]\quad\NivelFormacion{[Pregrado / Especialización / Maestría / Doctorado]}\quad\FormacionEnCurso
+
+\vspace{0.7em}
+
+\ItemCV{[Nombre del programa académico]}{[AAAA] -- [AAAA]}
+[Institución]\quad\NivelFormacion{[Nivel]}\quad\FormacionCulminada
+
+%% ── OPT-A: Idiomas ───────────────────────────────────────────────
+%\SeccionCV{Idiomas}
+%\begin{itemize}
+%  \item \textbf{Español} --- Nativo
+%  \item \textbf{Inglés} --- [Nivel: A1--C2 o descriptor MCER]
+%\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% EXPERIENCIA CERTIFICADA
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Experiencia Certificada}
+
+\ItemCV{[Cargo o rol desempeñado]}{[Mes AAAA] -- [Mes AAAA]}
+[Empresa o institución]\quad\Certificado
+\begin{itemize}
+  \item{} [Función o logro concreto, con verbo en pasado y resultado
+        verificable cuando sea posible.]
+  \item{} [Segunda función o logro relevante.]
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{[Cargo o rol desempeñado]}{[Mes AAAA] -- Actualidad}
+[Empresa o institución]\quad\Certificado
+\begin{itemize}
+  \item{} [Función o logro concreto.]
+  \item{} [Segunda función o logro relevante.]
+\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CERTIFICACIONES
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Certificaciones}
+
+\ItemCV{[Nombre de la certificación o curso]}{[Mes AAAA]}
+[Entidad emisora]\quad{\FuenteCodigo\small\color{GrisMedio}[Código de verificación o enlace, si aplica]}
+
+\vspace{0.5em}
+
+\ItemCV{[Nombre de la certificación o curso]}{[Mes AAAA]}
+[Entidad emisora]\quad{\FuenteCodigo\small\color{GrisMedio}[Código de verificación o enlace, si aplica]}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PUBLICACIONES (formato APA 7 — ver comando \Publicacion arriba)
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Publicaciones}
+
+\Publicacion{Apellido, N. A., y Apellido, N. B.}{AAAA}%
+  {Título del artículo en formato de oración normal}%
+  {Nombre de la Revista}{Vol(Núm), pp--pp}%
+  {https://doi.org/xx.xxxx/xxxxxxx}
+
+\Publicacion{Apellido, N. A.}{AAAA}%
+  {Título de la segunda publicación}%
+  {Nombre de la Revista o Editorial}{}{}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CONGRESOS Y PONENCIAS
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Congresos y Ponencias}
+
+\Ponencia{Título de la ponencia o trabajo presentado}%
+  {Nombre del congreso o evento}%
+  {Ponente}{Ciudad, País}{AAAA}
+
+\Ponencia{Título del trabajo presentado}%
+  {Nombre del congreso o evento}%
+  {Póster}{Ciudad, País}{AAAA}
+
+%% ─────────────────────────────────────────────────────────────────
+%% SECCIONES OPCIONALES ADICIONALES — descomente la que aplique
+%% (sección 2, ítem 9 del encargo: no fueron pedidas explícitamente,
+%% pero son estándar en un CV técnico-investigativo)
+%% Nota: OPT-A (Idiomas) está ubicado más arriba, entre Formación
+%% Académica y Experiencia Certificada.
+%% ─────────────────────────────────────────────────────────────────
+
+%% ── OPT-B: Habilidades técnicas / Stack tecnológico ──────────────
+%\SeccionCV{Habilidades Técnicas}
+%{\small
+%\textbf{Lenguajes:} [Python, C++, MATLAB, \ldots] \\
+%\textbf{Frameworks / Librerías:} [ROS, TensorFlow, \ldots] \\
+%\textbf{Hardware / Plataformas:} [Arduino, Raspberry Pi, PLC, \ldots] \\
+%\textbf{Herramientas de laboratorio:} [Osciloscopio, analizador lógico, \ldots]
+%}
+
+%% ── OPT-C: Software y herramientas ───────────────────────────────
+%\SeccionCV{Software y Herramientas}
+%\begin{itemize}
+%  \item{} [Nombre del software] --- [Nivel de dominio o uso específico]
+%\end{itemize}
+
+\end{document}

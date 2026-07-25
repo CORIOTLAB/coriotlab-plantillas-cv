@@ -1,0 +1,502 @@
+%% ╔══════════════════════════════════════════════════════════════════╗
+%% ║         CORIOTLAB — HOJA DE VIDA — EJEMPLO COMPLETO              ║
+%% ║         Datos reales, usados con autorización de su titular      ║
+%% ╚══════════════════════════════════════════════════════════════════╝
+%%
+%% COMPILAR: xelatex -interaction=nonstopmode hoja_de_vida_ejemplo_completa.tex
+%%           (doble pasada obligatoria)
+%%
+%% Este ejemplo NO usa datos ficticios: fue llenado con la hoja de vida
+%% real de Santiago Cano Molina (Ingeniero Mecatrónico, ITM), a partir de
+%% su CvLAC, Acta de Grado y certificados de cursos/ponencias/prototipos,
+%% con su autorización explícita para usarlos como ejemplo de referencia
+%% de esta plantilla.
+%%
+%% Nota sobre la sección "Producción Técnica": este ejemplo no incluye
+%% publicaciones tipo artículo/revista porque el titular aún no las tiene
+%% registradas; en su lugar se muestra su producción técnica real
+%% (prototipos), reutilizando el mismo comando \Publicacion. Si su caso sí
+%% tiene publicaciones en revista, simplemente use \Publicacion tal como
+%% se documenta en plantilla_hoja_de_vida.tex.
+
+%% ═══════════════════════════════════════════════════════════════════
+%% ZONA DE CONFIGURACIÓN — únicos campos a editar
+%% ═══════════════════════════════════════════════════════════════════
+
+%% --- Identificación ---
+\newcommand{\CVNombre}{Santiago Cano Molina}
+\newcommand{\CVTitulo}{Ingeniero Mecatrónico}
+\newcommand{\CVCorreo}{santiagocano298366@correo.itm.edu.co}
+\newcommand{\CVTelefono}{+57 300 265 4474}
+\newcommand{\CVCiudad}{Medellín, Colombia}
+\newcommand{\CVLinkedIn}{https://www.linkedin.com/in/santiago-cano-molina}
+\newcommand{\CVORCID}{0009-0006-9149-0800}
+\newcommand{\CVGitHub}{}
+\newcommand{\CVGoogleScholar}{https://scholar.google.com/citations?user=-F0yRQYAAAAJ&hl=es}
+\newcommand{\CVResearchGate}{https://www.researchgate.net/profile/Santiago-Cano-Molina-2}
+\newcommand{\CVFecha}{Julio de 2026}
+
+%% ═══════════════════════════════════════════════════════════════════
+
+\documentclass[10pt, letterpaper]{article}
+
+%% --- Idioma
+\usepackage[spanish, es-nodecimaldot, es-noshorthands]{babel}
+
+%% --- Fuentes (nombres de familia Windows — instalar con setup_coriotlab.ps1)
+\usepackage{fontspec}
+\setmainfont{Inter}
+\newfontfamily\FuenteTitulo{MuseoModerno}
+\newfontfamily\FuenteCodigo{Space Mono}
+
+%% --- Geometría — más compacta que los informes: el CV no usa membrete
+%%     de página completa, así que se aprovecha más ancho de contenido.
+\usepackage[
+  top=2.1cm, bottom=2.3cm,
+  left=2.2cm, right=2.2cm,
+  footskip=1.1cm
+]{geometry}
+
+%% --- Colores corporativos CORIOTLAB (idénticos al Libro de Marca)
+\usepackage[table]{xcolor}
+\definecolor{AzulITM}     {HTML}{102D69}
+\definecolor{Magenta}     {HTML}{C14894}
+\definecolor{AzulDigital} {HTML}{56ACDE}
+\definecolor{GrisPizarra} {HTML}{2F2F2F}
+\definecolor{GrisClaro}   {HTML}{F5F5F5}
+\definecolor{GrisMedio}   {HTML}{888888}
+\definecolor{GrisLinea}   {HTML}{DDDDDD}
+\definecolor{Blanco}      {HTML}{FFFFFF}
+\definecolor{VerdeTarea}  {HTML}{1A6B3C}
+
+%% --- Gráficos — grffile permite rutas con espacios y puntos múltiples,
+%%     necesario porque las carpetas del kit de marca usan ese formato
+%%     (ej. "2. Logos/2. Logo Full Color/2. Horizontal/...")
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{tikz}
+
+%% --- Tablas y alineación de entradas
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{booktabs}
+
+%% --- Listas
+\usepackage{enumitem}
+
+%% --- Campos opcionales condicionales (DOI, LinkedIn, ORCID, GitHub, etc.)
+\usepackage{etoolbox}
+
+%% --- Secciones y espaciado
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{urlcolor=AzulDigital}
+
+%% --- Pie de página discreto (fecha + numeración si el CV excede 1 página)
+\usepackage{fancyhdr}
+
+\usepackage{parskip}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.3}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PIE DE PÁGINA — regla delgada + fecha (izq) + página (der)
+%% ─────────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{{\color{GrisLinea}\hrule height\footrulewidth}}
+\fancyfoot[L]{{\FuenteCodigo\tiny\color{GrisMedio}\CVFecha}}
+\fancyfoot[R]{{\small\color{GrisMedio}\thepage}}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ESTILO DE SECCIÓN
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\SeccionCV}[1]{%
+  \needspace{3\baselineskip}%
+  \vspace{1.0em}%
+  \noindent{\textcolor{AzulITM}{\rule{2.4mm}{2.4mm}}}\hspace{0.5em}%
+  {\FuenteTitulo\large\color{AzulITM}\bfseries #1}\\[0.2em]%
+  {\color{AzulDigital}\rule{\linewidth}{1.1pt}}%
+  \vspace{0.4em}%
+}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ENCABEZADO DE ENTRADA — fila título (izq) + fechas (der)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\ItemCV}[2]{%
+  \par\noindent\begin{tabularx}{\linewidth}{@{}X r@{}}
+    {\FuenteTitulo\normalsize\color{GrisPizarra}\bfseries #1} &
+    {\FuenteCodigo\small\color{GrisMedio}#2}\\
+  \end{tabularx}\par\vspace{0.1em}%
+}
+
+\setlist[itemize]{label={\color{AzulITM}\textbf{>}},
+  leftmargin=1.6em, labelsep=0.5em, align=left, itemsep=2pt, topsep=3pt}
+
+%% ─────────────────────────────────────────────────────────────────
+%% SISTEMA DE ETIQUETAS — Nivel de formación académica (sección 4A)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\NivelFormacion}[1]{%
+  \colorbox{AzulITM!12}{\color{AzulITM}\small\bfseries\strut\ #1\ }}
+\newcommand{\FormacionEnCurso}{%
+  \colorbox{AzulDigital!15}{\color{AzulDigital!70!black}\small\bfseries\strut\ En curso\ }}
+\newcommand{\FormacionCulminada}{%
+  \colorbox{VerdeTarea!15}{\color{VerdeTarea}\small\bfseries\strut\ Culminado\ }}
+
+%% ─────────────────────────────────────────────────────────────────
+%% SISTEMA DE ETIQUETAS — Certificación (sección 4B)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Certificado}{%
+  \colorbox{VerdeTarea!15}{\color{VerdeTarea}\small\bfseries\strut\ Certificado\ }}
+\newcommand{\NoCertificado}{%
+  \colorbox{GrisMedio!15}{\color{GrisMedio!70!black}\small\bfseries\strut\ Sin certificar\ }}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PUBLICACIONES / PRODUCCIÓN TÉCNICA EN FORMATO APA 7 (Opción A)
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Publicacion}[6]{%
+  \par\noindent\hangindent=1.2em\hangafter=1
+  #1 (#2). #3. \textit{#4}%
+  \ifstrempty{#5}{}{, \textit{#5}}%
+  .%
+  \ifstrempty{#6}{}{\ {\FuenteCodigo\small #6}}%
+  \par\vspace{0.5em}%
+}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CONGRESOS Y PONENCIAS
+%% ─────────────────────────────────────────────────────────────────
+\newcommand{\Ponencia}[5]{%
+  \par\noindent\hangindent=1.2em\hangafter=1
+  \textbf{#1}. \textit{#2}. #3, #4 (#5).
+  \par\vspace{0.5em}%
+}
+
+%% =================================================================
+%%  DOCUMENTO
+%% =================================================================
+\begin{document}
+\color{GrisPizarra}
+
+%% ─────────────────────────────────────────────────────────────────
+%% ENCABEZADO
+%% ─────────────────────────────────────────────────────────────────
+\noindent
+\begin{minipage}[t]{0.72\linewidth}
+  {\FuenteTitulo\fontsize{24}{28}\selectfont\color{AzulITM}\bfseries \CVNombre}\\[0.15em]
+  {\large\color{GrisPizarra}\CVTitulo}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.26\linewidth}
+  \raggedleft
+  \includegraphics[width=0.85\linewidth]%
+    {../705_Kit de Marca Coriotlab/2. Logos/2. Logo Full Color/2. Horizontal/Coriotlab_Logo_Hor_FullColor.png}
+\end{minipage}
+
+\vspace{0.6em}
+
+%% --- Línea de contacto: correo, teléfono, ciudad ---
+\newcommand{\CVSep}{\ \ \textcolor{AzulITM}{\textbf{<}}\ \ }
+\noindent{\small\color{GrisMedio}
+  \CVCorreo
+  \ifdefempty{\CVTelefono}{}{\CVSep\CVTelefono}%
+  \CVSep\CVCiudad
+}
+
+%% --- Línea de redes/identificadores académicos (separada del contacto) ---
+\newbool{CVMostrarRedes}
+\ifdefempty{\CVLinkedIn}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVORCID}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVGitHub}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVGoogleScholar}{}{\booltrue{CVMostrarRedes}}
+\ifdefempty{\CVResearchGate}{}{\booltrue{CVMostrarRedes}}
+\ifbool{CVMostrarRedes}{%
+  \vspace{0.25em}
+
+  \noindent{\small\color{GrisMedio}\textit{Redes:}\ \,%
+    \def\CVPrimeraRed{1}%
+    \ifdefempty{\CVLinkedIn}{}{\href{\CVLinkedIn}{LinkedIn}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVORCID}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{https://orcid.org/\CVORCID}{{\FuenteCodigo ORCID: \CVORCID}}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVGoogleScholar}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVGoogleScholar}{Google Scholar}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVResearchGate}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVResearchGate}{ResearchGate}\def\CVPrimeraRed{0}}%
+    \ifdefempty{\CVGitHub}{}{\ifnum\CVPrimeraRed=0\CVSep\fi\href{\CVGitHub}{GitHub}\def\CVPrimeraRed{0}}%
+  }%
+}{}
+
+\vspace{0.3em}
+{\color{GrisLinea}\rule{\linewidth}{0.6pt}}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PERFIL PROFESIONAL
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Perfil Profesional}
+Ingeniero mecatrónico egresado del Instituto Tecnológico Metropolitano (ITM),
+actualmente cursando la Maestría en Automatización y Control Industrial en la
+misma institución. Su trabajo de grado y sus investigaciones posteriores se
+han enfocado en el desarrollo de plataformas robóticas móviles e IoT para el
+monitoreo y automatización de procesos en el sector agrícola, en terrenos
+irregulares. Ha participado como ponente en encuentros científicos nacionales
+e internacionales y se desempeña actualmente como apoyo académico
+especializado en investigación en la Facultad de Ingenierías del ITM.
+
+%% ─────────────────────────────────────────────────────────────────
+%% FORMACIÓN ACADÉMICA
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Formación Académica}
+
+\ItemCV{Maestría en Automatización y Control Industrial}{Febrero de 2026 -- en curso}
+Instituto Tecnológico Metropolitano (ITM)\quad\NivelFormacion{Maestría}\quad\FormacionEnCurso
+
+\vspace{0.7em}
+
+\ItemCV{Ingeniería Mecatrónica}{Febrero de 2020 -- Enero de 2026}
+Instituto Tecnológico Metropolitano (ITM)\quad\NivelFormacion{Pregrado}\quad\FormacionCulminada
+\begin{itemize}
+  \item{} Trabajo de grado: \textit{Desarrollo e implementación de una
+        plataforma robótica móvil de bajo costo para aplicaciones en el
+        sector agrícola en terrenos irregulares}.
+\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% IDIOMAS
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Idiomas}
+\begin{itemize}
+  \item{} \textbf{Español} --- Nativo
+  \item{} \textbf{Inglés} --- Habla: Aceptable \textbullet\ Escribe:
+        Aceptable \textbullet\ Lee: Bueno \textbullet\ Entiende: Aceptable
+\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% EXPERIENCIA CERTIFICADA
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Experiencia Certificada}
+
+\ItemCV{Docente cátedra — Extensión Académica}{Abril -- Agosto de 2026}
+Instituto Tecnológico Metropolitano (ITM)\quad\Certificado
+\begin{itemize}
+  \item{} Acompañamiento del proceso formativo del curso de robótica
+        (Comuna 12) y del diplomado en inteligencia artificial (Comuna 50),
+        en el marco del Proyecto de Inversión de Presupuesto Participativo.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{Docente cátedra — Extensión Académica}{Marzo -- Julio de 2026}
+Instituto Tecnológico Metropolitano (ITM)\quad\Certificado
+\begin{itemize}
+  \item{} Acompañamiento del proceso formativo en el marco del contrato
+        interadministrativo con la Secretaría de Innovación Digital.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{Apoyo Académico Especializado en Investigación}{Marzo -- Junio de 2026}
+Instituto Tecnológico Metropolitano (ITM), Facultad de Ingenierías\quad\Certificado
+
+\vspace{0.5em}
+
+\ItemCV{Prestación de servicios profesionales --- Proyecto SOSAGRO}{Febrero -- Noviembre de 2026}
+Instituto Tecnológico Metropolitano (ITM)\quad\Certificado
+\begin{itemize}
+  \item{} Gestión, acompañamiento y seguimiento administrativo del proyecto
+        de regalías Alianza Estratégica SOSAGRO 4.C.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{Prestación de servicios profesionales --- Detección de Tizón de la Papa}{Diciembre de 2025}
+Instituto Tecnológico Metropolitano (ITM)\quad\Certificado
+\begin{itemize}
+  \item{} Apoyo técnico especializado en el desarrollo, implementación y
+        optimización de algoritmos de procesamiento y análisis de datos
+        espectrales en infraestructura de cómputo de alto rendimiento (HPC),
+        orientados a la mejora de modelos de detección del tizón de la papa.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{Formador}{Mayo -- Noviembre de 2025}
+Convenio interadministrativo Comfenalco Antioquia -- ITM\quad\Certificado
+\begin{itemize}
+  \item{} Formación en robótica en el marco del convenio interadministrativo
+        entre Comfenalco Antioquia y el Instituto Tecnológico Metropolitano
+        (ITM).
+\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CERTIFICACIONES
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Certificaciones}
+
+\ItemCV{The 3D Printing Revolution}{Noviembre de 2025}
+University of Illinois Urbana-Champaign / Coursera\quad{\FuenteCodigo\small\color{GrisMedio}coursera.org/verify/3E8C7CVAHEBQ}
+
+\vspace{0.5em}
+
+\ItemCV{Fundamentos Básicos y Aplicaciones Específicas de la IA Generativa}{Noviembre de 2025}
+Beca SER ANDI -- Nodo EAFIT
+
+\vspace{0.5em}
+
+\ItemCV{Bootcamp de Análisis de Datos, Nivel Intermedio (159 horas)}{Octubre de 2025}
+Talento Tech (MinTIC) -- IU Training: U. de Antioquia, U. de Caldas, Ubicua Technology
+
+\vspace{0.5em}
+
+\ItemCV{Fundamentos de Machine Learning}{Octubre de 2025}
+Platzi\quad{\FuenteCodigo\small\color{GrisMedio}Cód. 536c6e18-b531-4c21-9835-287cfbf9d0af}
+
+\vspace{0.5em}
+
+\ItemCV{Álgebra Lineal Aplicada para Machine Learning}{Octubre de 2025}
+Platzi\quad{\FuenteCodigo\small\color{GrisMedio}Cód. a4721bc3-e758-4c02-9363-9c88528d002a}
+
+\vspace{0.5em}
+
+\ItemCV{Inmersión IA (con Google Gemini)}{Septiembre de 2025}
+Alura
+
+\vspace{0.5em}
+
+\ItemCV{Preparación Certificación AWS AI Practitioner}{Agosto de 2025}
+Alcaldía de Medellín -- Talento Tech
+
+\vspace{0.5em}
+
+\ItemCV{Técnicas de análisis de datos para un futuro sostenible en agricultura y medio ambiente}{Octubre de 2024}
+Universidad Surcolombiana, II Congreso Internacional USRA e Ingeniería Agrícola
+
+\vspace{0.5em}
+
+\ItemCV{Introduction to Bionic Prostheses, 3D Biomechanical Prostheses y Bionic Exoskeletons (3 webinars)}{Septiembre de 2024}
+P4H Bionics Online Academy
+
+\vspace{0.5em}
+
+\ItemCV{Python para no matemáticos: de 0 hasta reconocimiento facial}{Marzo de 2024}
+Udemy\quad{\FuenteCodigo\small\color{GrisMedio}Cód. UC-7735021d-de59-47f1-8af5-59c31652f210}
+
+\vspace{0.5em}
+
+\ItemCV{Robótica: Programación de Robots con ROS}{Agosto de 2023}
+Udemy\quad{\FuenteCodigo\small\color{GrisMedio}Cód. UC-257a85f3-cad3-4ee1-9d03-dbc9deed6187}
+
+\vspace{0.5em}
+
+\ItemCV{MATLAB Fundamentals}{Noviembre de 2022}
+MathWorks Training Services
+
+\vspace{0.5em}
+
+\ItemCV{Introducción a Python con énfasis en manejo de datos e IA}{Agosto -- Septiembre de 2022}
+Instituto Tecnológico Metropolitano (ITM), Extensión Académica
+
+\vspace{0.5em}
+
+\ItemCV{Programa Tecnoacademia (13 cursos y talleres, 702 horas acumuladas)}{2014 -- 2021}
+Servicio Nacional de Aprendizaje (SENA), Regional Antioquia
+\begin{itemize}
+  \item{} Introducción a la Programación: Algoritmos, Diseño y Prototipado
+        (2 ediciones), Dibujo Técnico, Ciencias Básicas en Matemáticas y
+        Física, Herramientas Metodológicas en Investigación Aplicada (CTeI),
+        Aplicación de Buenas Prácticas y Manejo de Reactivos en Laboratorio
+        Químico, Ilustración con Adobe Illustrator, Metodología de Marco
+        Lógico para Proyectos Públicos, Manejo de Microsoft Office 2016
+        (Excel), Habilidades para la Vida y Sensibilización Tecnoacademia.
+\end{itemize}
+
+%% ─────────────────────────────────────────────────────────────────
+%% PRODUCCIÓN TÉCNICA
+%% Nota: el titular aún no tiene publicaciones tipo artículo/revista
+%% registradas; se muestra en su lugar la producción técnica real
+%% (registros de software y prototipos), reutilizando el comando
+%% \Publicacion.
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Producción Técnica}
+
+\Publicacion{Cano Molina, S., y Hernández Palacio, L. F.}{2025}%
+  {CULTIVA: sistema inteligente de recomendación agrícola}%
+  {Registro de software --- Dirección Nacional de Derecho de Autor (DNDA), Colombia}%
+  {}{Reg. 13-108-391}
+
+\Publicacion{Cano Molina, S., y Hernández Palacio, L. F.}{2025}%
+  {RiegoSmart: control Bluetooth, posicionamiento mediante IMU y
+  publicación a Ubidots}%
+  {Registro de software --- Dirección Nacional de Derecho de Autor (DNDA), Colombia}%
+  {}{Reg. 13-109-62}
+
+\Publicacion{Cano Molina, S., Hernández Palacio, L. F., y Mejía Herrera, M.}{2025}%
+  {Sistema de captación de agua atmosférica}%
+  {Prototipo industrial --- Instituto Tecnológico Metropolitano (ITM), Colombia}{}{}
+
+\Publicacion{Cano Molina, S., Hernández Palacio, L. F., y Mejía Herrera, M.}{2025}%
+  {Sistema portátil de captación de agua atmosférica}%
+  {Prototipo industrial --- Instituto Tecnológico Metropolitano (ITM), Colombia}{}{}
+
+%% ─────────────────────────────────────────────────────────────────
+%% CONGRESOS Y PONENCIAS
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Congresos y Ponencias}
+
+\Ponencia{Desarrollo e implementación de una plataforma robótica móvil de
+  bajo costo para aplicaciones en el sector agrícola en terrenos irregulares}%
+  {11.\textsuperscript{a} Semana Internacional de Ciencia, Tecnología e
+  Innovación --- Universidad Francisco de Paula Santander}%
+  {Ponente}{San José de Cúcuta, Colombia}{Octubre de 2024}
+
+\Ponencia{Desarrollo de una plataforma robótica móvil IoT para el monitoreo
+  de variables ambientales en entornos agrícolas}%
+  {Seminario Científico, Reto Autoinnova 2024 --- Universidad Central
+  ``Marta Abreu'' de Las Villas (UCLV)}%
+  {Ponente}{Santa Clara, Cuba}{Abril de 2025}
+
+\Ponencia{Sistema inteligente de control de bombas para riego en torres de
+  cultivo}%
+  {XPOILERS: Festival de Stand Up Científicos --- Iniciación Científica /
+  Instituto Tecnológico Metropolitano (ITM)}%
+  {Ponente}{Bogotá D.\,C., Colombia}{Abril -- Mayo de 2026}
+
+\Ponencia{Desarrollo de sistema de navegación autónoma con tecnología de
+  banda ultra ancha}%
+  {II Congreso Internacional USRA e Ingeniería Agrícola --- Universidad
+  Surcolombiana}%
+  {Ponente}{Neiva, Colombia}{Octubre de 2024}
+\noindent{\small\color{GrisMedio}Coautores: Lucas Felipe Hernández Palacio,
+  Mateo Mejía Herrera, Juan Sebastián Botero Valencia.}
+\vspace{0.5em}
+
+\Ponencia{Participación con proyecto de semillero de investigación}%
+  {XX Encuentro Departamental de Semilleros de Investigación, Nodo
+  Antioquia --- RedCOLSI}%
+  {Ponente}{Virtual}{Junio de 2021}
+
+%% ─────────────────────────────────────────────────────────────────
+%% RECONOCIMIENTOS
+%% ─────────────────────────────────────────────────────────────────
+\SeccionCV{Reconocimientos}
+
+\ItemCV{Primer lugar --- Reto Autoinnova 2024}{Diciembre de 2024}
+Facultad de Ingenierías, Instituto Tecnológico Metropolitano (ITM)
+\begin{itemize}
+  \item{} Proyecto \textit{Desarrollo de una plataforma robótica móvil IoT
+        para el monitoreo de variables ambientales en invernaderos
+        agrícolas}, junto con Lucas Felipe Hernández Palacio.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ItemCV{Reconocimiento --- ROBORAVE México, 3.\textsuperscript{a} edición}{Septiembre de 2016}
+ROBORAVE International
+
+\vspace{0.5em}
+
+\ItemCV{Evaluador, XIV y XV Muestra Institucional de Proyectos de Investigación}{2024 -- 2025}
+Institución Educativa Colegio Loyola para la Ciencia y la Innovación
+
+\end{document}
