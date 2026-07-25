@@ -34,6 +34,9 @@ test_*.aux
 Thumbs.db
 desktop.ini
 
+# Archivos de bloqueo de LibreOffice/Office al tener un .docx abierto
+.~lock.*#
+
 # Claude Code — archivos internos de desarrollo
 .claude/
 CLAUDE.md
