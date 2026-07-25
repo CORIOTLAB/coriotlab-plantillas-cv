@@ -10,7 +10,7 @@ Instituto Tecnológico Metropolitano — ITM, Medellín, Colombia
 [![XeLaTeX](https://img.shields.io/badge/XeLaTeX-requerido-2C6EAA?style=flat-square&logo=latex&logoColor=white)](https://miktex.org/)
 [![MiKTeX](https://img.shields.io/badge/MiKTeX-26.5+-0078D4?style=flat-square&logo=windows&logoColor=white)](https://miktex.org/download)
 [![Versión](https://img.shields.io/badge/versión-1.0.0-102D69?style=flat-square)](CHANGELOG.md)
-[![Licencia](https://img.shields.io/badge/uso-CORIOTLAB%20ITM-C14894?style=flat-square)](mailto:lscritm4@gmail.com)
+[![Licencia](https://img.shields.io/badge/uso-CORIOTLAB%20ITM-C14894?style=flat-square)](mailto:info@coriotlab.co)
 
 </div>
 
@@ -337,6 +337,6 @@ ponencias), consulte el **[Manual de Usuario](docs/MANUAL_USUARIO.md)**.
 <div align="center">
 
 **Laboratorio CORIOTLAB — Instituto Tecnológico Metropolitano**
-Medellín, Colombia · [lscritm4@gmail.com](mailto:lscritm4@gmail.com)
+Medellín, Colombia · [info@coriotlab.co](mailto:info@coriotlab.co)
 
 </div>
